@@ -1,0 +1,25 @@
+<div [formGroup]="form" class="w-100">
+  <div class="form-group">
+    <label [attr.for]="question.key">{{ question.label }}</label>
+    <div [ngSwitch]="question.controlType">
+      <ng-container *ngSwitchCase="'textbox'">
+        <input
+          class="form-control form-control-lg"
+          [ngClass]="{'is-invalid': form.get(question.key).touched && form.get(question.key).errors,
+                       'is-valid': form.get(question.key).touched && !form.get(question.key).errors}"
+          [formControlName]="question.key"
+          [id]="question.key"
+          [type]="question.type"
+        />
+        <div class="invalid-feedback">
+          <p *ngIf="form.get(question.key).getError('required')">Campo Obrigatório</p>
+          <p *ngIf="form.get(question.key).getError('minlength')">Mínimo de {{form.get(question.key).errors.minlength.requiredLength}} caracteres</p>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="invalid-feedback" *ngIf="!isValid">
+      {{ question.label }} is required
+    </div>
+  </div>
+</div>
